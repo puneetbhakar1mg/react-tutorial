@@ -1,4 +1,5 @@
-import React from 'react';
+
+import data from './productData';
 
 /**
  * Stateless react component
@@ -6,9 +7,9 @@ import React from 'react';
  */
 const Product = () => {
   return (
-    <h1>
-      Hi
-    </h1>
+    <div>
+      {data.name}
+    </div>
   );
 };
 
