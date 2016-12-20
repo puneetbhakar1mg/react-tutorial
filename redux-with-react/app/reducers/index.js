@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { routerReducer as routing } from 'react-router-redux';
+import objectAssign from 'object-assign';
 
 
 const initialState = {
@@ -15,7 +16,7 @@ const initialState = {
   }
 };
 
-const sampleApp = (state = initialState, action) => {
+const sample = (state = initialState, action) => {
   switch (action.type) {
     case 'FETCH_CATEGORY': {
       return state;
@@ -23,12 +24,18 @@ const sampleApp = (state = initialState, action) => {
     case 'FETCH_PRODUCT': {
       return state;
     }
+    case 'MODIFY_PRODUCT': {
+      const products = objectAssign({}, state.products);
+
+      products['100'].description = action.desc;
+      return objectAssign({}, state, { products });
+    }
     default:
       return state;
   }
 };
 
 export default combineReducers({
-  sampleApp,
+  sample,
   routing
 });

@@ -7,6 +7,7 @@ const Product = (props) => {
     <h5>{product.brand}</h5>
     <div>{product.currency} {product.price}</div>
     <div>{product.description}</div>
+    <input type="text" name="modifyDescription" onKeyPress={() => (props.onKeyP('asdfsd'))} />
   </div>);
 };
 

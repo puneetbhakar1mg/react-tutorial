@@ -1,11 +1,17 @@
 import { connect } from 'react-redux';
-
+import action from '../../../actions';
 import ProductPresentational from '../presentational/Product';
 
 const mapStateToProps = (state) => ({
-  product: state.sampleApp.products[100],
+  product: state.sample.products[100],
 });
 
-const Product = connect(mapStateToProps)(ProductPresentational);
+const mapDispatchToProps = (dispatch) => ({
+  onKeyP: (desc) => {
+    dispatch(action.modifyProduct(desc));
+  }
+});
+
+const Product = connect(mapStateToProps, mapDispatchToProps)(ProductPresentational);
 
 export default Product;

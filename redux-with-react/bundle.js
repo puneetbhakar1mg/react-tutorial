@@ -72,7 +72,7 @@
 
 	var _routes2 = _interopRequireDefault(_routes);
 
-	var _reducers = __webpack_require__(270);
+	var _reducers = __webpack_require__(273);
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -28467,7 +28467,7 @@
 
 	var _Category2 = _interopRequireDefault(_Category);
 
-	var _Product = __webpack_require__(273);
+	var _Product = __webpack_require__(271);
 
 	var _Product2 = _interopRequireDefault(_Product);
 
@@ -28522,11 +28522,7 @@
 
 	var _reactRedux = __webpack_require__(223);
 
-	var _actions = __webpack_require__(271);
-
-	var _actions2 = _interopRequireDefault(_actions);
-
-	var _Category = __webpack_require__(272);
+	var _Category = __webpack_require__(270);
 
 	var _Category2 = _interopRequireDefault(_Category);
 
@@ -28534,7 +28530,7 @@
 
 	var mapStateToProps = function mapStateToProps(state) {
 	  return {
-	    categories: state.sampleApp.categories
+	    categories: state.sample.categories
 	  };
 	};
 
@@ -28544,78 +28540,6 @@
 
 /***/ },
 /* 270 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _redux = __webpack_require__(197);
-
-	var _reactRouterRedux = __webpack_require__(218);
-
-	var initialState = {
-	  categories: ['Ayurveda', 'Homeopathy', 'Allopathy'],
-	  products: {
-	    100: {
-	      name: 'Dant Kanti',
-	      brand: 'Patanjali',
-	      price: 234.50,
-	      currency: 'INR',
-	      description: 'Patanjali Dant kanti is used to protect the teeth. It contains Akarkara, Babul, Neem, Timbaru, Turmeric, Cloves, Pudin, Pippali, Peelu and maju phal'
-	    }
-	  }
-	};
-
-	var sampleApp = function sampleApp() {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
-	  var action = arguments[1];
-
-	  switch (action.type) {
-	    case 'FETCH_CATEGORY':
-	      {
-	        return state;
-	      }
-	    case 'FETCH_PRODUCT':
-	      {
-	        return state;
-	      }
-	    default:
-	      return state;
-	  }
-	};
-
-	exports.default = (0, _redux.combineReducers)({
-	  sampleApp: sampleApp,
-	  routing: _reactRouterRedux.routerReducer
-	});
-
-/***/ },
-/* 271 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var fetchCategory = function fetchCategory() {
-	  return { type: 'FETCH_CATEGORY' };
-	};
-
-	var fetchProduct = function fetchProduct() {
-	  return { type: 'FETCH_PRODUCT' };
-	};
-
-	exports.default = {
-	  fetchCategory: fetchCategory,
-	  fetchProduct: fetchProduct
-	};
-
-/***/ },
-/* 272 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -28651,13 +28575,13 @@
 	};
 
 	Category.propTypes = {
-	  categories: _react.PropTypes.any
+	  categories: _react.PropTypes.array.isRequired
 	};
 
 	exports.default = Category;
 
 /***/ },
-/* 273 */
+/* 271 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28668,7 +28592,11 @@
 
 	var _reactRedux = __webpack_require__(223);
 
-	var _Product = __webpack_require__(274);
+	var _actions = __webpack_require__(274);
+
+	var _actions2 = _interopRequireDefault(_actions);
+
+	var _Product = __webpack_require__(272);
 
 	var _Product2 = _interopRequireDefault(_Product);
 
@@ -28676,19 +28604,27 @@
 
 	var mapStateToProps = function mapStateToProps(state) {
 	  return {
-	    product: state.sampleApp.products[100]
+	    product: state.sample.products[100]
 	  };
 	};
 
-	var Product = (0, _reactRedux.connect)(mapStateToProps)(_Product2.default);
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    onKeyP: function onKeyP(desc) {
+	      dispatch(_actions2.default.modifyProduct(desc));
+	    }
+	  };
+	};
+
+	var Product = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_Product2.default);
 
 	exports.default = Product;
 
 /***/ },
-/* 274 */
+/* 272 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -28703,36 +28639,131 @@
 	var Product = function Product(props) {
 	  var product = props.product;
 	  return _react2.default.createElement(
-	    'div',
+	    "div",
 	    null,
 	    _react2.default.createElement(
-	      'h3',
+	      "h3",
 	      null,
 	      product.name
 	    ),
 	    _react2.default.createElement(
-	      'h5',
+	      "h5",
 	      null,
 	      product.brand
 	    ),
 	    _react2.default.createElement(
-	      'div',
+	      "div",
 	      null,
 	      product.currency,
-	      ' ',
+	      " ",
 	      product.price
 	    ),
 	    _react2.default.createElement(
-	      'div',
+	      "div",
 	      null,
 	      product.description
-	    )
+	    ),
+	    _react2.default.createElement("input", { type: "text", name: "modifyDescription", onKeyPress: function onKeyPress() {
+	        return props.onKeyP('asdfsd');
+	      } })
 	  );
 	};
 
 	Product.propTypes = {};
 
 	exports.default = Product;
+
+/***/ },
+/* 273 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _redux = __webpack_require__(197);
+
+	var _reactRouterRedux = __webpack_require__(218);
+
+	var _objectAssign = __webpack_require__(4);
+
+	var _objectAssign2 = _interopRequireDefault(_objectAssign);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var initialState = {
+	  categories: ['Ayurveda', 'Homeopathy', 'Allopathy'],
+	  products: {
+	    100: {
+	      name: 'Dant Kanti',
+	      brand: 'Patanjali',
+	      price: 234.50,
+	      currency: 'INR',
+	      description: 'Patanjali Dant kanti is used to protect the teeth. It contains Akarkara, Babul, Neem, Timbaru, Turmeric, Cloves, Pudin, Pippali, Peelu and maju phal'
+	    }
+	  }
+	};
+
+	var sample = function sample() {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+	  var action = arguments[1];
+
+	  switch (action.type) {
+	    case 'FETCH_CATEGORY':
+	      {
+	        return state;
+	      }
+	    case 'FETCH_PRODUCT':
+	      {
+	        return state;
+	      }
+	    case 'MODIFY_PRODUCT':
+	      {
+	        var products = (0, _objectAssign2.default)({}, state.products);
+
+	        products['100'].description = action.desc;
+	        return (0, _objectAssign2.default)({}, state, { products: products });
+	      }
+	    default:
+	      return state;
+	  }
+	};
+
+	exports.default = (0, _redux.combineReducers)({
+	  sample: sample,
+	  routing: _reactRouterRedux.routerReducer
+	});
+
+/***/ },
+/* 274 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var fetchCategory = function fetchCategory() {
+	  return { type: 'FETCH_CATEGORY' };
+	};
+
+	var fetchProduct = function fetchProduct() {
+	  return { type: 'FETCH_PRODUCT' };
+	};
+	var modifyProduct = function modifyProduct(desc) {
+	  return {
+	    type: 'MODIFY_PRODUCT',
+	    desc: desc
+	  };
+	};
+
+	exports.default = {
+	  fetchCategory: fetchCategory,
+	  fetchProduct: fetchProduct,
+	  modifyProduct: modifyProduct
+	};
 
 /***/ }
 /******/ ]);

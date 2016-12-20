@@ -9,7 +9,7 @@ const Category = (props) => {
 };
 
 Category.propTypes = {
-  categories: PropTypes.any
+  categories: PropTypes.array.isRequired
 };
 
 export default Category;
