@@ -4,31 +4,34 @@ import objectAssign from 'object-assign';
 
 
 const initialState = {
-  categories: ['Ayurveda', 'Homeopathy', 'Allopathy'],
-  products: {
+  productList: {
     100: {
       name: 'Dant Kanti',
       brand: 'Patanjali',
       price: 234.50,
       currency: 'INR',
       description: 'Patanjali Dant kanti is used to protect the teeth. It contains Akarkara, Babul, Neem, Timbaru, Turmeric, Cloves, Pudin, Pippali, Peelu and maju phal'
+    },
+    101: {
+      name: '3M 9004V PARTICULATE RESPIRATOR MASK ',
+      brand: '3M India Limited',
+      price: 400.00,
+      currency: 'INR',
+      description: '3M 9004V is a dust mask composed of three layers of filters. The outermost layer filters out the largest dust particles, the innermost layer preserves the respirator’s shape and the middle layer is composed of electrostatic filter media.'
     }
   }
 };
 
 const sample = (state = initialState, action) => {
   switch (action.type) {
-    case 'FETCH_CATEGORY': {
-      return state;
-    }
-    case 'FETCH_PRODUCT': {
-      return state;
-    }
     case 'MODIFY_PRODUCT': {
-      const products = objectAssign({}, state.products);
+      const { desc, id } = action;
+      const productList = objectAssign({}, state.productList);
+      const product = productList[id];
+      product.description = desc;
 
-      products['100'].description = action.desc;
-      return objectAssign({}, state, { products });
+      productList[id] = product;
+      return objectAssign({}, state, { productList });
     }
     default:
       return state;

@@ -72,7 +72,7 @@
 
 	var _routes2 = _interopRequireDefault(_routes);
 
-	var _reducers = __webpack_require__(273);
+	var _reducers = __webpack_require__(274);
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -28463,9 +28463,9 @@
 
 	var _index2 = _interopRequireDefault(_index);
 
-	var _Category = __webpack_require__(269);
+	var _ProductList = __webpack_require__(269);
 
-	var _Category2 = _interopRequireDefault(_Category);
+	var _ProductList2 = _interopRequireDefault(_ProductList);
 
 	var _Product = __webpack_require__(271);
 
@@ -28476,8 +28476,8 @@
 	exports.default = _react2.default.createElement(
 	  _Route2.default,
 	  { path: '/', component: _index2.default },
-	  _react2.default.createElement(_IndexRoute2.default, { component: _Category2.default }),
-	  _react2.default.createElement(_Route2.default, { path: 'product', component: _Product2.default })
+	  _react2.default.createElement(_IndexRoute2.default, { component: _ProductList2.default }),
+	  _react2.default.createElement(_Route2.default, { path: 'product/:id', component: _Product2.default })
 	);
 
 /***/ },
@@ -28522,27 +28522,27 @@
 
 	var _reactRedux = __webpack_require__(223);
 
-	var _Category = __webpack_require__(270);
+	var _ProductList = __webpack_require__(270);
 
-	var _Category2 = _interopRequireDefault(_Category);
+	var _ProductList2 = _interopRequireDefault(_ProductList);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var mapStateToProps = function mapStateToProps(state) {
 	  return {
-	    categories: state.sample.categories
+	    productList: state.sample.productList
 	  };
 	};
 
-	var Category = (0, _reactRedux.connect)(mapStateToProps)(_Category2.default);
+	var ProductList = (0, _reactRedux.connect)(mapStateToProps)(_ProductList2.default);
 
-	exports.default = Category;
+	exports.default = ProductList;
 
 /***/ },
 /* 270 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -28554,31 +28554,32 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var Category = function Category(props) {
-	  var categories = props.categories;
+	var ProductList = function ProductList(props) {
+	  var pl = props.productList;
+	  var products = Object.keys(pl);
 
 	  return _react2.default.createElement(
-	    "div",
+	    'ul',
 	    null,
-	    categories.map(function (category) {
+	    products.map(function (key) {
 	      return _react2.default.createElement(
-	        "h4",
-	        { key: category },
+	        'li',
+	        { key: key },
 	        _react2.default.createElement(
-	          "a",
-	          { href: "#/product" },
-	          category
+	          'a',
+	          { href: '#/product/' + key },
+	          pl[key].name
 	        )
 	      );
 	    })
 	  );
 	};
 
-	Category.propTypes = {
-	  categories: _react.PropTypes.array.isRequired
+	ProductList.propTypes = {
+	  productList: _react.PropTypes.object.isRequired
 	};
 
-	exports.default = Category;
+	exports.default = ProductList;
 
 /***/ },
 /* 271 */
@@ -28592,11 +28593,11 @@
 
 	var _reactRedux = __webpack_require__(223);
 
-	var _actions = __webpack_require__(274);
+	var _actions = __webpack_require__(272);
 
 	var _actions2 = _interopRequireDefault(_actions);
 
-	var _Product = __webpack_require__(272);
+	var _Product = __webpack_require__(273);
 
 	var _Product2 = _interopRequireDefault(_Product);
 
@@ -28604,14 +28605,14 @@
 
 	var mapStateToProps = function mapStateToProps(state) {
 	  return {
-	    product: state.sample.products[100]
+	    productList: state.sample.productList
 	  };
 	};
 
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	  return {
-	    onKeyP: function onKeyP(desc) {
-	      dispatch(_actions2.default.modifyProduct(desc));
+	    onKeyUp: function onKeyUp(desc, id) {
+	      dispatch(_actions2.default.modifyProduct(desc, id));
 	    }
 	  };
 	};
@@ -28622,6 +28623,27 @@
 
 /***/ },
 /* 272 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var modifyProduct = function modifyProduct(desc, id) {
+	  return {
+	    type: 'MODIFY_PRODUCT',
+	    desc: desc,
+	    id: id
+	  };
+	};
+
+	exports.default = {
+	  modifyProduct: modifyProduct
+	};
+
+/***/ },
+/* 273 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -28637,7 +28659,10 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Product = function Product(props) {
-	  var product = props.product;
+	  var productList = props.productList,
+	      params = props.params;
+
+	  var product = productList[params.id];
 	  return _react2.default.createElement(
 	    "div",
 	    null,
@@ -28663,18 +28688,22 @@
 	      null,
 	      product.description
 	    ),
-	    _react2.default.createElement("input", { type: "text", name: "modifyDescription", onKeyPress: function onKeyPress() {
-	        return props.onKeyP('asdfsd');
+	    _react2.default.createElement("input", { type: "text", name: "modifyDescription", onKeyUp: function onKeyUp(e) {
+	        return props.onKeyUp(e.target.value, params.id);
 	      } })
 	  );
 	};
 
-	Product.propTypes = {};
+	Product.propTypes = {
+	  productList: _react.PropTypes.object,
+	  params: _react.PropTypes.object,
+	  onKeyUp: _react.PropTypes.func
+	};
 
 	exports.default = Product;
 
 /***/ },
-/* 273 */
+/* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28694,14 +28723,20 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var initialState = {
-	  categories: ['Ayurveda', 'Homeopathy', 'Allopathy'],
-	  products: {
+	  productList: {
 	    100: {
 	      name: 'Dant Kanti',
 	      brand: 'Patanjali',
 	      price: 234.50,
 	      currency: 'INR',
 	      description: 'Patanjali Dant kanti is used to protect the teeth. It contains Akarkara, Babul, Neem, Timbaru, Turmeric, Cloves, Pudin, Pippali, Peelu and maju phal'
+	    },
+	    101: {
+	      name: '3M 9004V PARTICULATE RESPIRATOR MASK ',
+	      brand: '3M India Limited',
+	      price: 400.00,
+	      currency: 'INR',
+	      description: '3M 9004V is a dust mask composed of three layers of filters. The outermost layer filters out the largest dust particles, the innermost layer preserves the respirator’s shape and the middle layer is composed of electrostatic filter media.'
 	    }
 	  }
 	};
@@ -28711,20 +28746,17 @@
 	  var action = arguments[1];
 
 	  switch (action.type) {
-	    case 'FETCH_CATEGORY':
-	      {
-	        return state;
-	      }
-	    case 'FETCH_PRODUCT':
-	      {
-	        return state;
-	      }
 	    case 'MODIFY_PRODUCT':
 	      {
-	        var products = (0, _objectAssign2.default)({}, state.products);
+	        var desc = action.desc,
+	            id = action.id;
 
-	        products['100'].description = action.desc;
-	        return (0, _objectAssign2.default)({}, state, { products: products });
+	        var productList = (0, _objectAssign2.default)({}, state.productList);
+	        var product = productList[id];
+	        product.description = desc;
+
+	        productList[id] = product;
+	        return (0, _objectAssign2.default)({}, state, { productList: productList });
 	      }
 	    default:
 	      return state;
@@ -28735,35 +28767,6 @@
 	  sample: sample,
 	  routing: _reactRouterRedux.routerReducer
 	});
-
-/***/ },
-/* 274 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var fetchCategory = function fetchCategory() {
-	  return { type: 'FETCH_CATEGORY' };
-	};
-
-	var fetchProduct = function fetchProduct() {
-	  return { type: 'FETCH_PRODUCT' };
-	};
-	var modifyProduct = function modifyProduct(desc) {
-	  return {
-	    type: 'MODIFY_PRODUCT',
-	    desc: desc
-	  };
-	};
-
-	exports.default = {
-	  fetchCategory: fetchCategory,
-	  fetchProduct: fetchProduct,
-	  modifyProduct: modifyProduct
-	};
 
 /***/ }
 /******/ ]);

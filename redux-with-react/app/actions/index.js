@@ -1,13 +1,9 @@
-const fetchCategory = () => ({ type: 'FETCH_CATEGORY' });
-
-const fetchProduct = () => ({ type: 'FETCH_PRODUCT' });
-const modifyProduct = desc => ({
+const modifyProduct = (desc, id) => ({
   type: 'MODIFY_PRODUCT',
-  desc
+  desc,
+  id
 });
 
 export default {
-  fetchCategory,
-  fetchProduct,
   modifyProduct
 };

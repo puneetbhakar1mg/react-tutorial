@@ -2,13 +2,13 @@ import { connect } from 'react-redux';
 import action from '../../../actions';
 import ProductPresentational from '../presentational/Product';
 
-const mapStateToProps = (state) => ({
-  product: state.sample.products[100],
+const mapStateToProps = state => ({
+  productList: state.sample.productList,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  onKeyP: (desc) => {
-    dispatch(action.modifyProduct(desc));
+const mapDispatchToProps = dispatch => ({
+  onKeyUp: (desc, id) => {
+    dispatch(action.modifyProduct(desc, id));
   }
 });
 
