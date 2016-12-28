@@ -1,0 +1,11 @@
+.list {
+
+}
+.product-name {
+  color: #333;
+  text-decoration: none;
+}
+
+.product-name:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,10 @@
+.name {
+  font-size: 18px;
+  font-weight: 300;
+  margin: 0 0 6px;
+}
+.manufacturer {
+  color: #999;
+  margin-bottom: 12px;
+  font-size: 12px;
+}
