@@ -12,21 +12,7 @@ const getSpecialitySuccess = (data) => ({
   data
 });
 
-const asynccc = () => {
-  const p = Promise;
-  return p.resolve();
-}
-
 export default {
-  getAllSpecialities() {
-    return (dispatch) => {
-      return axios.get('https://stagapi.1mgdoctors.com/api/specialities', {
-        headers:{Accept: 'application/1mgdoctors.v2', Authorization: 'Token token="f77f883849e5bb2099849a055a6b608c0486a564598e048834291ec7e6fe"'}
-      }).then((response) => {
-        dispatch(getSpecialitySuccess(response.data));
-      });
-    }
-  },
   getDummySpeciality() {
     // return (dispatch) => {
     //   return Promise.resolve().then(() => {
